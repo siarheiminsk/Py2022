@@ -47,12 +47,10 @@ while True:
     # wait for valid option
     while menu not in ('0', '1', '2'):
         # user chooses desired scenario
-        menu = input(
-            # multiline string
-            """Press 1 to set custom configuration parameters 
-Press 2 to use default values
-Press 0 to quit
-> """)
+        print('Press 1 to set custom configuration parameters')
+        print('Press 2 to use default values')
+        print('Press 0 to quit')
+        menu = input('> ')
     # code for custom configuration option
     if int(menu) == 1:
 
