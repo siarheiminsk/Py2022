@@ -50,6 +50,7 @@ while True:
         print('Press 1 to set custom configuration parameters')
         print('Press 2 to use default values')
         print('Press 0 to quit')
+        # place user's input to variable
         menu = input('> ')
     # code for custom configuration option
     if int(menu) == 1:
