@@ -1,0 +1,25 @@
+Latest posts
+
+Weather forecast -------------
+Forecast date: 2022/02/16
+Location: Minsk
+Summary: Sunny
+Forecast temperature: -3 -5°C
+------------------------------
+
+Private Ad -------------------
+House for sale! New big house in Tarasovo! Only 999.999$ Hurry!!!
+Actual until: 2022/02/20, 5 days left
+------------------------------
+
+News -------------------------
+Nemiga bridge has already been opened.
+Minsk, 2022/02/15 06:37
+------------------------------
+
+Weather forecast -------------
+Forecast date: 2022/02/16
+Location: London
+Summary: Cloudy
+Forecast temperature: +7 +9°C
+------------------------------
