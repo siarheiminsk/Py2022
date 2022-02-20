@@ -1,23 +1,20 @@
-# import os library to be able to clear console output and work with files
-import os
-# import datetime library to be able to clear console output and work with files
-import datetime
-# import re library to work with regex
-import re
-
-
 # parent class for each entry
 class FeedEntryClass:
     # initialize FeedEntryClass
-    def __init__(self):
+    def __init__(self, name):
+        # place class name parameter to a variable
+        self.name = name
         # set path to the file
         self.path = 'feed/feed.txt'
         # get current date and time
         self.now = datetime.datetime.now()
-        # place to datetime_string variable current date and time in required format
+        # place to datetime string variable current date and time in required format
         self.datetime_string = self.now.strftime("%Y/%m/%d %H:%M")
-        # initialize variables for future use
+        # place to date string variable current date in required format
+        self.date_string = self.now.strftime("%Y/%m/%d")
+        # initialize class variables
         self.message = ''
+        self.location = ''
         self.feed_file = ''
 
     # write initial message to the file method
@@ -59,26 +56,28 @@ class FeedEntryClass:
 # NewsClass, child from FeedEntryClass
 class NewsClass(FeedEntryClass):
     # initialize NewsClass
-    def __init__(self):
+    def __init__(self, name):
         # initialize parent class
-        FeedEntryClass.__init__(self)
-        # initialize variables for future use
-        self.news_text = ''
-        self.news_location = ''
+        FeedEntryClass.__init__(self, 'General Feed')
+        # place class name parameter to a variable
+        self.name = name
 
     # add news to the file method
-    def news_input(self, message, location):
+    def output(self, message, location):
+        # create method variables
+        self.message = message
+        self.location = location
         # open file for append
         self.feed_file = open(f'{self.path}', 'a')
         # write to the file
-        self.feed_file.write('\nNews -------------------------\n')
-        self.feed_file.write(message + '\n')
-        self.feed_file.write(f'{location}, {str(self.datetime_string)}\n')
+        self.feed_file.write(f'\n{self.name} -------------------------\n')
+        self.feed_file.write(self.message + '\n')
+        self.feed_file.write(f'{self.location}, {str(self.datetime_string)}\n')
         self.feed_file.write('------------------------------\n')
         # close file to see results immediately
         self.feed_file.close()
         # write to console status message
-        self.status(entry_type='News')
+        self.status(entry_type=self.name)
         # clear screen
         self.cls()
 
@@ -86,39 +85,41 @@ class NewsClass(FeedEntryClass):
 # AdvClass, child from FeedEntryClass
 class AdvClass(FeedEntryClass):
     # initialize AdvClass
-    def __init__(self):
+    def __init__(self, name):
         # initialize parent class
-        FeedEntryClass.__init__(self)
-        # initialize variables for future use
+        FeedEntryClass.__init__(self, 'General Feed')
+        # initialize class variable
         self.expiration_date = ''
-        self.adv_text = ''
+        # place class name parameter to a variable
+        self.name = name
 
     # static method decorator
     @staticmethod
     # calculate expiration days for the advertisement
-    def expiration_days(date1, date2):
+    def expiration_days(self, expiration_date):
+        # create method variables
+        self.expiration_date = expiration_date
         # create a date object from the input parameter string
-        date1 = datetime.datetime.strptime(date1, "%Y/%m/%d")
-        # create a date object from the input parameter string
-        date2 = datetime.datetime.strptime(date2, "%Y/%m/%d")
+        self.expiration_date = datetime.datetime.strptime(self.expiration_date, "%Y/%m/%d")
         # return number of days between expiration date and current date
-        return abs((date2 - date1).days)
+        return abs((self.expiration_date - self.now).days)
 
     # add advertising to the file method
-    def adv_input(self, message, expiration_date):
+    def output(self, message, expiration_date):
+        self.expiration_date = expiration_date
         # open file for append
         self.feed_file = open(f'{self.path}', 'a')
         # write to the file
-        self.feed_file.write('\nPrivate Ad -------------------\n')
+        self.feed_file.write(f'\n{self.name} -------------------\n')
         self.feed_file.write(message + '\n')
-        self.feed_file.write(f'Actual until: {expiration_date}, '
-                             f'{str(self.expiration_days(self.now.strftime("%Y/%m/%d"), expiration_date))} '
+        self.feed_file.write(f'Actual until: {self.expiration_date}, '
+                             f'{str(self.expiration_days(self, self.expiration_date))} '
                              f'days left')
         self.feed_file.write('\n------------------------------\n')
         # close file to see results immediately
         self.feed_file.close()
         # write to console status message
-        self.status(entry_type='Advertising')
+        self.status(self.name)
         # clear screen
         self.cls()
 
@@ -126,33 +127,37 @@ class AdvClass(FeedEntryClass):
 # WeatherForecastClass, child from FeedEntryClass
 class WeatherForecastClass(FeedEntryClass):
     # initialize AdvClass
-    def __init__(self):
+    def __init__(self, name):
         # initialize parent class
-        FeedEntryClass.__init__(self)
+        FeedEntryClass.__init__(self, 'General Feed')
+        # place class name parameter to a variable
+        self.name = name
         # variable to store degree sign
         self.degree_sign = u"\N{DEGREE SIGN}"
         # variable with next day date
         self.next_day = self.now + datetime.timedelta(days=1)
-        # initialize variables for future use
-        self.forecast_location = ''
-        self.forecast_summary = ''
-        self.forecast_temperature = ''
+        # initialize class variable
+        self.temperature = ''
 
     # add weather forecast for tomorrow to the file method
-    def wf_input(self, location, summary, temperature):
+    def output(self, location, summary, temperature):
+        # create method variables
+        self.message = summary
+        self.location = location
+        self.temperature = temperature
         # open file for append
         self.feed_file = open(f'{self.path}', 'a')
         # write to the file
-        self.feed_file.write('\nWeather forecast -------------\n')
+        self.feed_file.write(f'\n{self.name} -------------\n')
         self.feed_file.write(f'Forecast date: {self.next_day.strftime("%Y/%m/%d")}\n')
-        self.feed_file.write(f'Location: {location}\n')
-        self.feed_file.write(f'Summary: {summary}\n')
-        self.feed_file.write(f'Forecast temperature: {temperature}{self.degree_sign}C')
+        self.feed_file.write(f'Location: {self.location}\n')
+        self.feed_file.write(f'Summary: {self.message}\n')
+        self.feed_file.write(f'Forecast temperature: {self.temperature}{self.degree_sign}C')
         self.feed_file.write('\n------------------------------\n')
         # close file to see results immediately
         self.feed_file.close()
         # write to console status message
-        self.status(entry_type='Weather forecast')
+        self.status(self.name)
         # clear screen
         self.cls()
 
@@ -162,28 +167,33 @@ class VerificationClass(FeedEntryClass):
     # initialize VerificationClass
     def __init__(self):
         # initialize parent class
-        FeedEntryClass.__init__(self)
-        # initialize variables for future use
+        FeedEntryClass.__init__(self, 'General Feed')
+        # initialize class variables
         self.correct_format_date = ''
+        self.temperature_to_check = ''
+        self.date_to_check = ''
+        self.string_to_check = ''
         # pattern for temperature range or a single temperature value
         self.ends_with_number_pattern = re.compile(r'^[\\+\-\s\d]*\d+$')
 
     # verify temperature method
     def verify_temperature(self, temperature_to_check):
+        self.temperature_to_check = temperature_to_check
         # if temperature string contains allowed symbols and ends with a number
-        if self.ends_with_number_pattern.search(temperature_to_check):
+        if self.ends_with_number_pattern.search(self.temperature_to_check):
             return True
         else:
             return False
 
     # verify date method
     def verify_date(self, date_to_check):
+        self.date_to_check = date_to_check
         # catch ValueError exception
         try:
             # create a date object from the input parameter string
-            self.correct_format_date = datetime.datetime.strptime(date_to_check, '%Y/%m/%d')
+            self.correct_format_date = datetime.datetime.strptime(self.date_to_check, '%Y/%m/%d')
             # check if current date is earlier then expiration date
-            if self.correct_format_date < self.now:
+            if self.date_to_check < self.date_string:
                 # print error message
                 print("Error: You have entered date in the past")
                 return False
@@ -194,28 +204,29 @@ class VerificationClass(FeedEntryClass):
         except ValueError:
             return False
 
-    # static method
-    @staticmethod
     # verify empty input method
-    def verify_empty_input(string_to_check):
+    def verify_empty_input(self, string_to_check):
+        self.string_to_check = string_to_check
         # check string length
-        if len(string_to_check) > 0:
+        if len(self.string_to_check) > 0:
             return True
         else:
             return False
 
 
-# User Interface Class, child from NewsClass, AdvClass, WeatherForecastClass, VerificationClass
-class UIClass(NewsClass, AdvClass, WeatherForecastClass, VerificationClass):
+# User Interface Class
+class UIClass:
     # initialize UIClass
     def __init__(self):
-        # initialize parent classes
-        NewsClass.__init__(self)
-        AdvClass.__init__(self)
-        WeatherForecastClass.__init__(self)
-        VerificationClass.__init__(self)
-        # initialize variable for menu input
+        # initialize class variables
         self.menu_input = '-1'
+        self.news_text_input = ''
+        self.news_location_input = ''
+        self.adv_text_input = ''
+        self.expiration_date_input = ''
+        self.forecast_location_input = ''
+        self.forecast_summary_input = ''
+        self.forecast_temperature_input = ''
 
     # select menu option method
     def select_option(self):
@@ -231,51 +242,58 @@ class UIClass(NewsClass, AdvClass, WeatherForecastClass, VerificationClass):
             print("Press '0' to quit")
             # wait for user input
             self.menu_input = input("\n> ")
+        # create VerificationClass class object
+        vrf = VerificationClass()
         # News dialog
         if self.menu_input == '1':
             # check user input for non empty string
-            while not VerificationClass.verify_empty_input(self.news_text):
-                self.news_text = input("\nInput news text here\n> ")
+            while not vrf.verify_empty_input(self.news_text_input):
+                self.news_text_input = input("\nInput news text here\n> ")
             # check user input for non empty string
-            while not VerificationClass.verify_empty_input(self.news_location):
-                self.news_location = input("Input location please\n> ")
+            while not vrf.verify_empty_input(self.news_location_input):
+                self.news_location_input = input("Input location please\n> ")
+            # create NewsClass class object
+            nws = NewsClass('News')
             # call news_input method
-            NewsClass.news_input(self, self.news_text, self.news_location)
+            nws.output(self.news_text_input, self.news_location_input)
             # reset variables
-            self.news_text = ''
-            self.news_location = ''
+            self.news_text_input = ''
+            self.news_location_input = ''
         # Advertisement dialog
         elif self.menu_input == '2':
             # check user input for non empty string
-            while not VerificationClass.verify_empty_input(self.adv_text):
-                self.adv_text = input("\nInput advertising text here\n> ")
+            while not vrf.verify_empty_input(self.adv_text_input):
+                self.adv_text_input = input("\nInput advertising text here\n> ")
             # check date validity
-            while not VerificationClass.verify_date(self, self.expiration_date):
-                self.expiration_date = input("Input valid expiration date in format YYYY/MM/DD\n> ")
+            while not vrf.verify_date(self.expiration_date_input):
+                self.expiration_date_input = input("Input valid expiration date in format YYYY/MM/DD\n> ")
+            # create AdvClass class object
+            adv = AdvClass('Private Ad')
             # call adv_input method
-            AdvClass.adv_input(self, self.adv_text, self.expiration_date)
+            adv.output(self.adv_text_input, self.expiration_date_input)
             # reset variables
-            self.adv_text = ''
-            self.expiration_date = ''
+            self.adv_text_input = ''
+            self.expiration_date_input = ''
         # Weather forecast dialog
         elif self.menu_input == '3':
             # check user input for non empty string
-            while not VerificationClass.verify_empty_input(self.forecast_location):
-                self.forecast_location = input("\nInput forecast location please\n> ")
+            while not vrf.verify_empty_input(self.forecast_location_input):
+                self.forecast_location_input = input("\nInput forecast location please\n> ")
             # check user input for non empty string
-            while not VerificationClass.verify_empty_input(self.forecast_summary):
-                self.forecast_summary = input("Input forecast summary\n> ")
+            while not vrf.verify_empty_input(self.forecast_summary_input):
+                self.forecast_summary_input = input("Input forecast summary\n> ")
             # check user input for non empty string
-            while not VerificationClass.verify_temperature(self, self.forecast_temperature):
-                self.forecast_temperature = input("Input forecast temperature range. "
-                                                  "Numbers and '+', '-', ' ' signs are allowed (e. g. -1 +3)\n>")
+            while not vrf.verify_temperature(self.forecast_temperature_input):
+                self.forecast_temperature_input = input("Input forecast temperature range. "
+                                                        "Numbers and '+', '-', ' ' signs are allowed (e. g. -1 +3)\n>")
+            # create WeatherForecastClass class object
+            wfc = WeatherForecastClass('Weather forecast')
             # call wf_input method
-            WeatherForecastClass.wf_input(self, self.forecast_location,
-                                          self.forecast_summary, self.forecast_temperature)
+            wfc.output(self.forecast_location_input, self.forecast_summary_input, self.forecast_temperature_input)
             # reset variables
-            self.forecast_location = ''
-            self.forecast_summary = ''
-            self.forecast_temperature = ''
+            self.forecast_location_input = ''
+            self.forecast_summary_input = ''
+            self.forecast_temperature_input = ''
         # Quit dialog
         elif self.menu_input == '0':
             # stop the script
@@ -286,8 +304,14 @@ class UIClass(NewsClass, AdvClass, WeatherForecastClass, VerificationClass):
 
 # check if it's an entry point
 if __name__ == '__main__':
+    # import os library to be able to clear console output and work with files
+    import os
+    # import datetime library to be able to clear console output and work with files
+    import datetime
+    # import re library to work with regex
+    import re
     # create Feed object
-    feed = FeedEntryClass()
+    feed = FeedEntryClass('General Feed')
     # write initial message to the file
     feed.initial_message()
     # create UI object
