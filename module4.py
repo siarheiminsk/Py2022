@@ -70,30 +70,20 @@ def capitalize_sentences(text):
     paragraph_list = []
     # initiate string for all paragraphs
     paragraph_string = []
-    # pattern to search for a paragraph's indent and content
-    leading_spaces_pattern = re.compile(r'^(\s*)(.+)')
     # find all matches for a paragraph's indent and content
-    all_matches = re.findall(leading_spaces_pattern, text)
+    all_matches = text.split('\n')
     # iterate through matches
     for paragraph_matches in all_matches:
-        # iterate through strings in matches in a paragraph list
-        for part_match in paragraph_matches:
-            # check if it's a paragraph with a sentence(-s)
-            if part_match.endswith('.'):
-                # split paragraph on sentences
-                sentence_list = part_match.split('. ')
-                # iterate through every sentence
-                for sentence in sentence_list:
-                    # add capitalized sentence to a sentence list
-                    paragraph_list.append(sentence.capitalize())
-                    # check for a full stop after a sentence
-                    if not sentence.endswith('.'):
-                        # add a full stop
-                        paragraph_list.append('. ')
-            # if it's a paragraph without sentences
-            else:
-                # add capitalized sentence to a sentence list
-                paragraph_list.append(part_match.capitalize())
+        # split paragraph on sentences
+        sentence_list = paragraph_matches.split('. ')
+        for sentence in sentence_list:
+            # add capitalized sentence to a sentence list
+            paragraph_list.append(sentence.capitalize())
+            x = re.search('[.!]$', sentence)
+            # check for a full stop after a sentence
+            if not x:
+                # add a full stop
+                paragraph_list.append('. ')
         # join paragraph's sentences to one string
         paragraph_string = ''.join(paragraph_list)
     return paragraph_string
