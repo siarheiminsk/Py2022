@@ -1,0 +1,21 @@
+{
+	"head": 
+		[
+		{
+			"type" : "News",
+			"text" : "Nemiga bridge has already BeEn opened.",
+			"location" : "MiNSk"
+		},
+		{
+			"type" : "Weather forecast",
+			"location" : "London",
+			"summary" : "Cloudy",
+			"temperature" : "+7 +9"
+		},
+		{
+			"type" : "Private Ad",
+			"text" : "House for sale. new big house in TaraSovo. oNly 999.999$ Hurry!!!",
+			"date" : "2022/03/20"
+		}
+		]
+}
