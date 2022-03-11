@@ -2,3 +2,5 @@
 2022/03/02 17:06	['Private Ad', 'House for sale. new big house in TaraSovo. oNly 999.999$ Hurry!!!', '2022/02/20']
 2022/03/02 17:06	['Private Ad\t|']
 2022/03/02 17:06	['Private', '']
+2022/03/11 12:57	<Element 'record' at 0x000001E92A492950>
+2022/03/11 15:23	<Element 'record' at 0x000001FE55BF3950>

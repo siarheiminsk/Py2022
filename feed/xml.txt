@@ -1,0 +1,19 @@
+<feed>
+	<record>
+		<type>News</type>
+		<text>Nemiga bridge has already BeEn opened.</text>
+		<location>MiNSk</location>
+	</record>
+	<record>		
+		<type>Weather forecast</type>
+		<location>London</location>
+		<summary>Cloudy</summary>
+		<temperature>+7 +9"</temperature>
+	</record>
+	<record>		
+		<type>Private Ad</type>
+		<text>House for sale. new big house in TaraSovo. oNly 999.999$ Hurry!!!</text>
+		<date2>2022/03/20</date2>
+		<test></test>
+	</record>
+</feed>
