@@ -1,0 +1,9 @@
+{
+  "dev": {
+    "database": "results/",
+    "test_data_folder": "test_data/"
+  },
+  "test": {
+
+  }
+}

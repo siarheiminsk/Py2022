@@ -1,0 +1,47 @@
+--------------------------------------------
+Testing of test_data\tests.json was started
+--------------------------------------------
+
+
+----Testing case: individual tests
+
+FAIL. Result is 40 but expected 22
+	Query: select count(*) from hr.employees
+
+
+----Testing case: individual tests
+
+PASS. Result is 0 as expected
+	Query: select count(*) from hr.employees where last_name is null
+
+
+----Testing case: common tests
+
+PASS. Result is 271116 as expected
+	Query: select count(*) from dbo.athlete_events
+FAIL. Result is 0 but expected >= 1
+	Query: select count(*) from dbo.bond_issue_log
+PASS. Result is 1916 as expected
+	Query: select count(*) from dbo.new_log
+FAIL. Result is 0 but expected >= 1
+	Query: select count(*) from dbo.table1
+PASS. Result is 4 as expected
+	Query: select count(*) from dbo.Testdata
+PASS. Result is 25 as expected
+	Query: select count(*) from hr.countries
+PASS. Result is 11 as expected
+	Query: select count(*) from hr.departments
+PASS. Result is 30 as expected
+	Query: select count(*) from hr.dependents
+PASS. Result is 40 as expected
+	Query: select count(*) from hr.employees
+PASS. Result is 19 as expected
+	Query: select count(*) from hr.jobs
+PASS. Result is 7 as expected
+	Query: select count(*) from hr.locations
+PASS. Result is 4 as expected
+	Query: select count(*) from hr.regions
+
+--------------------------------------------
+Testing of test_data\tests.json was finished
+--------------------------------------------

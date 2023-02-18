@@ -1,0 +1,23 @@
+{
+    "common_tests": [
+    {
+      "schema": "%",
+      "table": "%",
+      "name": "common tests",
+      "query": "select count(*) from ",
+      "result": 1
+    }
+  ],
+  "tests": [
+    {
+      "name": "individual tests",
+      "query": "select count(*) from hr.employees",
+      "result": 22
+    },
+    {
+      "name": "individual tests",
+      "query": "select count(*) from hr.employees where last_name is null",
+      "result": 0
+    }
+  ]
+}
